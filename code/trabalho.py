@@ -34,6 +34,7 @@ for filename in os.listdir(enderecoDoggos):
     medias.append(np.mean(centroid))
     desvios.append(np.std(centroid))
     i += 1
+    print (i/63, "%")
 
 mediaDoggos  = np.mean ( np.array(medias))
 desvioDoggos = np.mean ( np.array(desvios))
@@ -46,12 +47,12 @@ j=i-1;i=0
 for filename in os.listdir(enderecoSamples):
     framerate = AudioSegment.from_mp3(enderecoSamples+filename).frame_rate
     amostra, fs = (librosa.load(enderecoSamples+filename, sr=framerate))
-
     transf = (librosa.stft(amostra, n_fft=2048, hop_length=128, win_length=1024, window='hann'))
     centroid = (librosa.feature.spectral_flatness(S=np.abs(transf), n_fft=2048,hop_length=512))
     medias.append(np.mean(centroid))
     desvios.append(np.std(centroid))
     i += 1
+    print (i/266, "%")
 
 #calcula a media das medias e a media dos desvios
 mediaSamples  = np.mean ( np.array(medias))
@@ -63,3 +64,5 @@ t, p = st.ttest_ind_from_stats(mediaDoggos, desvioDoggos, j, mediaSamples, desvi
 print("Doggos: ",mediaDoggos, desvioDoggos)
 print("Samples: ",mediaSamples, desvioSamples)
 print("P-value", p)
+
+plt.show()
